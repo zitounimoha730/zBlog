@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "demo-angular": {
+    "z-blog": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "demo-angular:build:production"
+              "buildTarget": "z-blog:build:production"
             },
             "development": {
-              "buildTarget": "demo-angular:build:development"
+              "buildTarget": "z-blog:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -17,3 +17,10 @@ jobs:
           node-version: '25.x'
       - run: npm install
       - run: npm run build
+      
+      - name: Deploy to gh pages
+        run: |
+          npx angular-cli-ghpages --dir=dist/z-blog/browser
+          env:
+            CI: true
+            GH_TOKEN: ${{ secrets.GH_TOKEN }}
