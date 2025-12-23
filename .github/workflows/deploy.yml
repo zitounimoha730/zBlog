@@ -1,0 +1,19 @@
+name: build and deploy the blog
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: use node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.13.0'
+      - run: npm install
+      - run: npm run build
