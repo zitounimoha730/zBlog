@@ -13,10 +13,6 @@ coverage
 e2e/coverage
 e2e/reports
 reports
-.nyc_output
-tsconfig*.json
-jest.config.js
-ngsw-worker.js
 *.iml
 .history
 .pnp.*
