@@ -26,3 +26,4 @@ ngsw-worker.js
 .expo-shared
 dist-ssr
 out-tsc
+.package-lock.json
