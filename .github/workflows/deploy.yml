@@ -19,14 +19,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: create a ignored file
+        run: touch package-lock.json
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.21.1'
           cache: npm
-
-      - name: create a ignored file
-        run: touch package-lock.json
 
       - name: Install dependencies
         run: npm install
