@@ -1,26 +1,49 @@
-name: build and deploy the blog
+name: Build and Deploy Z-Blog to GitHub Pages
 
 on:
   push:
     branches:
-      - main
+      - main 
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
-      - name: use node.js
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '25.x'
-      - run: npm install
-      - run: npm run build
-      
-      - name: Deploy to gh pages
+          node-version: '22.21.1'
+          cache: npm
+
+      - name: create a ignored file
+        run: touch package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Angular
         run: |
-          npx angular-cli-ghpages --dir=dist/z-blog/browser
-          env:
-            CI: true
-            GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          npm run build -- --base-href=/${{ github.event.repository.name }}/
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/z-blog/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

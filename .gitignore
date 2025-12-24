@@ -22,4 +22,4 @@ reports
 .expo-shared
 dist-ssr
 out-tsc
-.package-lock.json
+package-lock.json
