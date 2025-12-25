@@ -1,7 +1,21 @@
 <mat-toolbar class="layout-header">
 
   <span class="layout-header_label">Z-blog</span>
+  <div class="course-menu">
+    <button [matMenuTriggerFor]="angularMenu" matButton>Angular</button>
+    <mat-menu #angularMenu="matMenu">
+      <button mat-menu-item>Angular 21</button>
+      <button mat-menu-item>Angular 20</button>
+      <button mat-menu-item>NgXs</button>
+    </mat-menu>
 
+    <button [matMenuTriggerFor]="javaMenu" matButton>Java</button>
+    <mat-menu #javaMenu="matMenu">
+      <button mat-menu-item>Java 25</button>
+      <button mat-menu-item>Java 24</button>
+      <button mat-menu-item>Java 8</button>
+    </mat-menu>
+  </div>
   <div class="selection-container">
     <mat-form-field class="term-search">
       <mat-label>Search ...</mat-label>

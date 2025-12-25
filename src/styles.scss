@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 
+@use 'app/core/layout/components/_layout.component.scss' as app-layout;
 @use 'app/core/layout/components/header/_header.component.scss' as app-header;
 
 @include mat.elevation-classes();
@@ -55,6 +56,7 @@ $zblog-theme-dark: mat.define-theme($zblog-theme-dark-config);
 @mixin zblog-theme($theme, $config) {
   @include mat.theme($config);
   @include mat.all-component-themes($theme);
+  @include app-layout.theme-layout($theme);
   @include app-header.theme-layout-header($theme);
 }
 
@@ -77,7 +79,7 @@ body {
       )
   );
 
-  .dark-theme  {
+  .dark-theme {
     @include zblog-theme($zblog-theme-dark, $zblog-theme-dark-config);
   }
 

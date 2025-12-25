@@ -11,10 +11,18 @@
     .layout-header_label {
       color: mat.get-theme-color($theme, on-primary);
     }
+
+    .course-menu {
+      .mdc-button__label {
+        color: mat.get-theme-color($theme, on-primary);
+      }
+    }
+
     .selection-container {
       .search-icon, .close-icon {
         color: mat.get-theme-color($theme, on-primary);
       }
+
       @include mat.icon-button-overrides((
         icon-color: white,
         disabled-icon-color: rgba(236, 236, 236, 0.6),

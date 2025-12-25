@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, signal, Signal, ViewEncapsulation,} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {MatTooltip} from '@angular/material/tooltip';
@@ -9,6 +9,7 @@ import {LayoutService} from '../../services/layout.service';
 import _ from 'lodash';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'zblog-header',
@@ -24,7 +25,11 @@ import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
     MatOption,
     MatFormField,
     MatLabel,
-    MatInput
+    MatInput,
+    MatMenuTrigger,
+    MatMenu,
+    MatMenuItem,
+    MatButton
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
