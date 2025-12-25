@@ -1,0 +1,37 @@
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  .layout-header {
+    background: linear-gradient(to right, mat.get-theme-color($theme, primary, 60), mat.get-theme-color($theme, primary, 30));
+
+    .layout-header_icon {
+      color: mat.get-theme-color($theme, on-primary);
+    }
+
+    .layout-header_label {
+      color: mat.get-theme-color($theme, on-primary);
+    }
+    .selection-container {
+      .search-icon, .close-icon {
+        color: mat.get-theme-color($theme, on-primary);
+      }
+      @include mat.icon-button-overrides((
+        icon-color: white,
+        disabled-icon-color: rgba(236, 236, 236, 0.6),
+      ));
+      @include mat.badge-overrides((
+        background-color: mat.get-theme-color($theme, tertiary),
+        large-size-container-size: 30px,
+        large-size-text-size: 12px,
+        large-size-line-height: 30px,
+        large-size-container-overlap-offset: -20px,
+      ));
+    }
+  }
+}
+
+@mixin theme-layout-header($theme) {
+  @include color($theme);
+}
+
+

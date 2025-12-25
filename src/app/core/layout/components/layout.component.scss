@@ -1,0 +1,22 @@
+.layout-right-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+
+  .layout-right-content_main-content {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+
+    .content-container {
+      padding-top: 2rem;
+      width: 75rem;
+    }
+  }
+
+
+}
+

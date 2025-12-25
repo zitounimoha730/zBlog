@@ -1,0 +1,16 @@
+<mat-toolbar class="layout-header">
+
+  <span class="layout-header_label">Z-blog</span>
+
+  <div class="selection-container">
+     <mat-icon (click)="toggleView()" [matTooltip]="'Rechercher un élement'" class="search-icon">search</mat-icon>
+
+    <div class="menu-bottom_lightning">
+      <button (click)="onToggleDarkMode()" class="dark-icon-button" mat-icon-button>
+        <mat-icon [ngClass]="isDarkMode() ? 'dark-icon': 'light-icon'">{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}
+        </mat-icon>
+      </button>
+    </div>
+  </div>
+
+</mat-toolbar>

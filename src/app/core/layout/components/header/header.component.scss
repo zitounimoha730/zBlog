@@ -1,0 +1,22 @@
+.layout-header {
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .layout-header_label {
+    margin-left: 1.25rem;
+  }
+
+  .selection-container {
+    display: flex;
+    gap: 1.3rem;
+    align-items: center;
+    justify-content: center;
+
+    .close-icon {
+      margin-left: 0;
+    }
+
+  }
+}
