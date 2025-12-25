@@ -10,6 +10,9 @@ import _ from 'lodash';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {Router} from '@angular/router';
+import {CoursesService} from '../../../../courses/services/courses.service';
+import {CourseModel} from '../../../../courses/models/course.model';
 
 @Component({
   selector: 'zblog-header',
@@ -39,8 +42,18 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 export class HeaderComponent {
   protected searchControl = new FormControl<string>('', {nonNullable: true});
   protected matchingSearch$: Signal<string[]> = signal(['hello', 'world', 'angular', 'java']);
+  protected coursesService = inject(CoursesService);
   private layoutService = inject(LayoutService);
   protected readonly isDarkMode: Signal<boolean> = this.layoutService.isDarkMode();
+  private router = inject(Router);
+
+  protected goToHomePage() {
+    this.router.navigate(['home']).then();
+  }
+
+  protected goToCourse(course: CourseModel) {
+    this.router.navigate([course.key]).then();
+  }
 
   protected displaySearchFn(searchTerm: string): string {
     return searchTerm ?? '';

@@ -1,10 +1,17 @@
-import { Routes } from '@angular/router';
+import {Route, Routes} from '@angular/router';
+import {COURSE_CONFIG_MAP} from './courses/config/courses.config';
+import {GreetingsComponent} from './greetings/components/greetings.component';
 
 export const routes: Routes = [
-    {
+  {
     path: 'greetings',
-    loadComponent: () => import('./greetings/components/greetings.component').then(m => m.GreetingsComponent),
+    component: GreetingsComponent,
   },
+  {
+    path: 'home',
+    loadComponent: () => import('./core/home/components/home.component').then(m => m.HomeComponent),
+  },
+  ...convertConfigToRoutes(),
   {
     path: '',
     pathMatch: 'full',
@@ -15,3 +22,10 @@ export const routes: Routes = [
     redirectTo: 'greetings',
   },
 ];
+
+function convertConfigToRoutes() {
+  return COURSE_CONFIG_MAP.map(config => ({
+    path: config.key,
+    component: config.component
+  } as Route))
+}
