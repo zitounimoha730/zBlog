@@ -1,15 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component, inject, Signal,
-  ViewEncapsulation,
-} from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { MatIconButton } from '@angular/material/button';
-import { MatToolbar } from '@angular/material/toolbar';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatTooltip } from '@angular/material/tooltip';
-import { NgClass } from '@angular/common';
-import { LayoutService } from '../../services/layout.service';
+import {ChangeDetectionStrategy, Component, inject, signal, Signal, ViewEncapsulation,} from '@angular/core';
+import {MatIcon} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
+import {MatToolbar} from '@angular/material/toolbar';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {MatTooltip} from '@angular/material/tooltip';
+import {NgClass} from '@angular/common';
+import {LayoutService} from '../../services/layout.service';
+import _ from 'lodash';
+import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
+import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 
 @Component({
   selector: 'zblog-header',
@@ -20,6 +19,12 @@ import { LayoutService } from '../../services/layout.service';
     ReactiveFormsModule,
     MatTooltip,
     NgClass,
+    MatAutocomplete,
+    MatAutocompleteTrigger,
+    MatOption,
+    MatFormField,
+    MatLabel,
+    MatInput
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -27,8 +32,27 @@ import { LayoutService } from '../../services/layout.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent {
+  protected searchControl = new FormControl<string>('', {nonNullable: true});
+  protected matchingSearch$: Signal<string[]> = signal(['hello', 'world', 'angular', 'java']);
   private layoutService = inject(LayoutService);
   protected readonly isDarkMode: Signal<boolean> = this.layoutService.isDarkMode();
+
+  protected displaySearchFn(searchTerm: string): string {
+    return searchTerm ?? '';
+  }
+
+  protected onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      const matchingEvents = this.matchingSearch$();
+      if (matchingEvents && matchingEvents.length > 0) {
+        const firstOptions = _.first(matchingEvents);
+        if (firstOptions) {
+          this.searchControl.setValue(firstOptions);
+        }
+        event.preventDefault();
+      }
+    }
+  }
 
   protected toggleView() {
   }

@@ -3,7 +3,20 @@
   <span class="layout-header_label">Z-blog</span>
 
   <div class="selection-container">
-     <mat-icon (click)="toggleView()" [matTooltip]="'Rechercher un élement'" class="search-icon">search</mat-icon>
+    <mat-form-field class="term-search">
+      <mat-label>Search ...</mat-label>
+      <input (keydown)="onKeyDown($event)"
+             [formControl]="searchControl"
+             [matAutocomplete]="esearchAutoComplete"
+             matInput
+             type="text">
+      <mat-autocomplete #esearchAutoComplete="matAutocomplete" [displayWith]="displaySearchFn">
+        @for (searchTerm of matchingSearch$(); track searchTerm) {
+          <mat-option [value]="searchTerm">{{ searchTerm }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-icon (click)="toggleView()" [matTooltip]="'Rechercher un élement'" class="search-icon">search</mat-icon>
 
     <div class="menu-bottom_lightning">
       <button (click)="onToggleDarkMode()" class="dark-icon-button" mat-icon-button>
