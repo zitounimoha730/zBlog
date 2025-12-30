@@ -3,8 +3,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {MatTooltip} from '@angular/material/tooltip';
-import {NgClass} from '@angular/common';
+import {AsyncPipe, NgClass} from '@angular/common';
 import {LayoutService} from '../../services/layout.service';
 import _ from 'lodash';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
@@ -13,6 +12,9 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {Router} from '@angular/router';
 import {CoursesService} from '../../../../courses/services/courses.service';
 import {CourseModel} from '../../../../courses/models/course.model';
+import {ResponsiveService} from '../../services/responsive.service';
+import {Observable} from 'rxjs';
+import {MiniHeaderComponent} from './mini-header/mini-header.component';
 
 @Component({
   selector: 'zblog-header',
@@ -21,7 +23,6 @@ import {CourseModel} from '../../../../courses/models/course.model';
     MatToolbar,
     MatIconButton,
     ReactiveFormsModule,
-    MatTooltip,
     NgClass,
     MatAutocomplete,
     MatAutocompleteTrigger,
@@ -32,7 +33,9 @@ import {CourseModel} from '../../../../courses/models/course.model';
     MatMenuTrigger,
     MatMenu,
     MatMenuItem,
-    MatButton
+    MatButton,
+    AsyncPipe,
+    MiniHeaderComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -46,6 +49,11 @@ export class HeaderComponent {
   private layoutService = inject(LayoutService);
   protected readonly isDarkMode: Signal<boolean> = this.layoutService.isDarkMode();
   private router = inject(Router);
+  private responsiveService = inject(ResponsiveService);
+
+  protected isMobile(): Observable<boolean> {
+    return this.responsiveService.isMobile();
+  }
 
   protected goToHomePage() {
     this.router.navigate(['home']).then();

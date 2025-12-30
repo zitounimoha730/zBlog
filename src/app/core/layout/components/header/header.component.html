@@ -1,42 +1,45 @@
 <mat-toolbar class="layout-header">
-  <span (click)="goToHomePage()" class="layout-header_label">Z-blog</span>
-  <div class="course-menu">
-    <button [matMenuTriggerFor]="angularMenu" matButton>Angular</button>
-    <mat-menu #angularMenu="matMenu">
-      @for (course of coursesService.angularCourses(); track course.key) {
-        <button mat-menu-item (click)="goToCourse(course)">{{ course.label }}</button>
-      }
-    </mat-menu>
-
-    <button [matMenuTriggerFor]="javaMenu" matButton>Java</button>
-    <mat-menu #javaMenu="matMenu">
-      @for (course of coursesService.javaCourses(); track course.key) {
-        <button mat-menu-item (click)="goToCourse(course)">{{ course.label }}</button>
-      }
-    </mat-menu>
-  </div>
-  <div class="selection-container">
-    <mat-form-field class="term-search">
-      <mat-label>Search ...</mat-label>
-      <input (keydown)="onKeyDown($event)"
-             [formControl]="searchControl"
-             [matAutocomplete]="esearchAutoComplete"
-             matInput
-             type="text">
-      <mat-autocomplete #esearchAutoComplete="matAutocomplete" [displayWith]="displaySearchFn">
-        @for (searchTerm of matchingSearch$(); track searchTerm) {
-          <mat-option [value]="searchTerm">{{ searchTerm }}</mat-option>
+  @if (isMobile() | async) {
+    <zblog-mini-header></zblog-mini-header>
+  } @else {
+    <span (click)="goToHomePage()" class="layout-header_label">Z-blog</span>
+    <div class="course-menu">
+      <button [matMenuTriggerFor]="angularMenu" matButton>Angular</button>
+      <mat-menu #angularMenu="matMenu">
+        @for (course of coursesService.angularCourses(); track course.key) {
+          <button mat-menu-item (click)="goToCourse(course)">{{ course.label }}</button>
         }
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-icon (click)="toggleView()" [matTooltip]="'Rechercher un élement'" class="search-icon">search</mat-icon>
+      </mat-menu>
 
-    <div class="menu-bottom_lightning">
-      <button (click)="onToggleDarkMode()" class="dark-icon-button" mat-icon-button>
-        <mat-icon [ngClass]="isDarkMode() ? 'dark-icon': 'light-icon'">{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}
-        </mat-icon>
-      </button>
+      <button [matMenuTriggerFor]="javaMenu" matButton>Java</button>
+      <mat-menu #javaMenu="matMenu">
+        @for (course of coursesService.javaCourses(); track course.key) {
+          <button mat-menu-item (click)="goToCourse(course)">{{ course.label }}</button>
+        }
+      </mat-menu>
     </div>
-  </div>
+    <div class="selection-container">
+      <mat-form-field [ngClass]="{'small-search':(isMobile() | async)}" class="term-search">
+        <mat-label>Search ...</mat-label>
+        <input (keydown)="onKeyDown($event)"
+               [formControl]="searchControl"
+               [matAutocomplete]="esearchAutoComplete"
+               matInput
+               type="text">
+        <mat-autocomplete #esearchAutoComplete="matAutocomplete" [displayWith]="displaySearchFn">
+          @for (searchTerm of matchingSearch$(); track searchTerm) {
+            <mat-option [value]="searchTerm">{{ searchTerm }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <div class="menu-bottom_lightning">
+        <button (click)="onToggleDarkMode()" class="dark-icon-button" mat-icon-button>
+          <mat-icon [ngClass]="isDarkMode() ? 'dark-icon': 'light-icon'">{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+  }
 
 </mat-toolbar>

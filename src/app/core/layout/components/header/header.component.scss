@@ -23,5 +23,14 @@
       margin-top: 1rem;
     }
 
+    .small-search {
+      width: 10rem !important;
+      margin-top: 1.5rem !important;
+
+      mat-form-field {
+        height: 0.5rem !important;
+      }
+    }
+
   }
 }

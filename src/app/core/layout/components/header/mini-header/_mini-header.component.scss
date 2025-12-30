@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  .mini-header-container {
+    .menu_button_icon {
+      color: mat.get-theme-color($theme, on-primary);
+    }
+
+    .app_label {
+      color: mat.get-theme-color($theme, on-primary);
+    }
+  }
+}
+
+@mixin theme-mini-header($theme) {
+  @include color($theme);
+}
