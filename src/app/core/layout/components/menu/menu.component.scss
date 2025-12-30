@@ -1,0 +1,23 @@
+.menu-container {
+  z-index: 99;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  position: relative;
+  transition: width 0.3s ease, box-shadow 0.5s ease;
+
+  &:hover {
+    box-shadow: 0 .4375rem .5rem -.25rem #1f263e1a, 0 .3125rem 1.375rem .25rem #1f263e0f, 0 .75rem 1.0625rem .125rem #1f263e12;
+  }
+
+  &.menu-container__opened {
+    width: 7rem;
+  }
+
+  &.menu-container__hidden {
+    display: none;
+  }
+}

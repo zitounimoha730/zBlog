@@ -1,0 +1,15 @@
+<div class="course-menu-container">
+  <button [matMenuTriggerFor]="angularMenu" matButton>Angular</button>
+  <mat-menu #angularMenu="matMenu">
+    @for (course of coursesService.angularCourses(); track course.key) {
+      <button mat-menu-item (click)="goToCourse(course)">{{ course.label }}</button>
+    }
+  </mat-menu>
+
+  <button [matMenuTriggerFor]="javaMenu" matButton>Java</button>
+  <mat-menu #javaMenu="matMenu">
+    @for (course of coursesService.javaCourses(); track course.key) {
+      <button mat-menu-item (click)="goToCourse(course)">{{ course.label }}</button>
+    }
+  </mat-menu>
+</div>

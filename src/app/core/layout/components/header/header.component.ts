@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, signal, Signal, ViewEncapsulation,} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
-import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {AsyncPipe, NgClass} from '@angular/common';
@@ -8,13 +8,11 @@ import {LayoutService} from '../../services/layout.service';
 import _ from 'lodash';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
-import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {Router} from '@angular/router';
-import {CoursesService} from '../../../../courses/services/courses.service';
-import {CourseModel} from '../../../../courses/models/course.model';
 import {ResponsiveService} from '../../services/responsive.service';
 import {Observable} from 'rxjs';
 import {MiniHeaderComponent} from './mini-header/mini-header.component';
+import {CoursesMenuComponent} from '../courses-menu/courses-menu.component';
 
 @Component({
   selector: 'zblog-header',
@@ -30,12 +28,9 @@ import {MiniHeaderComponent} from './mini-header/mini-header.component';
     MatFormField,
     MatLabel,
     MatInput,
-    MatMenuTrigger,
-    MatMenu,
-    MatMenuItem,
-    MatButton,
     AsyncPipe,
-    MiniHeaderComponent
+    MiniHeaderComponent,
+    CoursesMenuComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -45,7 +40,6 @@ import {MiniHeaderComponent} from './mini-header/mini-header.component';
 export class HeaderComponent {
   protected searchControl = new FormControl<string>('', {nonNullable: true});
   protected matchingSearch$: Signal<string[]> = signal(['hello', 'world', 'angular', 'java']);
-  protected coursesService = inject(CoursesService);
   private layoutService = inject(LayoutService);
   protected readonly isDarkMode: Signal<boolean> = this.layoutService.isDarkMode();
   private router = inject(Router);
@@ -57,10 +51,6 @@ export class HeaderComponent {
 
   protected goToHomePage() {
     this.router.navigate(['home']).then();
-  }
-
-  protected goToCourse(course: CourseModel) {
-    this.router.navigate([course.key]).then();
   }
 
   protected displaySearchFn(searchTerm: string): string {
@@ -78,9 +68,6 @@ export class HeaderComponent {
         event.preventDefault();
       }
     }
-  }
-
-  protected toggleView() {
   }
 
   protected onToggleDarkMode() {
