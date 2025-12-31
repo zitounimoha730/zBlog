@@ -24,7 +24,8 @@ export const routes: Routes = [
 ];
 
 function convertConfigToRoutes() {
-  return COURSE_CONFIG_MAP.map(config => ({
+  const allCourses = Object.values(COURSE_CONFIG_MAP).flat();
+  return allCourses.map(config => ({
     path: config.key,
     component: config.component
   } as Route))
