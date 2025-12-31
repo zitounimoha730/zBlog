@@ -1,0 +1,44 @@
+.menu-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-bottom: 0.625rem;
+
+  .menu-bottom__version {
+    display: flex;
+    justify-content: center;
+    font-size: 0.65rem;
+    overflow: hidden;
+    white-space: pre;
+
+  }
+
+  .menu-bottom_lightning {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    mat-icon {
+      overflow: unset;
+      font-size: 23px;
+      width: unset;
+      height: unset;
+    }
+
+    .dark-icon {
+      color: yellow;
+    }
+
+    .light-icon {
+      color: #145bac;
+    }
+
+    .menu-bottom_lightning__text {
+      width: 100%;
+      font-weight: 400;
+      margin-left: 0.625rem;
+      white-space: pre !important;
+      overflow: hidden !important;
+    }
+  }
+}

@@ -8,11 +8,8 @@ import {LayoutService} from '../../services/layout.service';
 import _ from 'lodash';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
-import {Router} from '@angular/router';
 import {ResponsiveService} from '../../services/responsive.service';
 import {Observable} from 'rxjs';
-import {MiniHeaderComponent} from './mini-header/mini-header.component';
-import {CoursesMenuComponent} from '../courses-menu/courses-menu.component';
 
 @Component({
   selector: 'zblog-header',
@@ -29,8 +26,6 @@ import {CoursesMenuComponent} from '../courses-menu/courses-menu.component';
     MatLabel,
     MatInput,
     AsyncPipe,
-    MiniHeaderComponent,
-    CoursesMenuComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -41,20 +36,18 @@ export class HeaderComponent {
   protected searchControl = new FormControl<string>('', {nonNullable: true});
   protected matchingSearch$: Signal<string[]> = signal(['hello', 'world', 'angular', 'java']);
   private layoutService = inject(LayoutService);
-  protected readonly isDarkMode: Signal<boolean> = this.layoutService.isDarkMode();
-  private router = inject(Router);
   private responsiveService = inject(ResponsiveService);
 
   protected isMobile(): Observable<boolean> {
     return this.responsiveService.isMobile();
   }
 
-  protected goToHomePage() {
-    this.router.navigate(['home']).then();
-  }
-
   protected displaySearchFn(searchTerm: string): string {
     return searchTerm ?? '';
+  }
+
+  protected onToggleMenu() {
+    this.layoutService.toggleMenu();
   }
 
   protected onKeyDown(event: KeyboardEvent) {
@@ -68,9 +61,5 @@ export class HeaderComponent {
         event.preventDefault();
       }
     }
-  }
-
-  protected onToggleDarkMode() {
-    this.layoutService.setDarkMode(!this.isDarkMode());
   }
 }

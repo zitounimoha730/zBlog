@@ -1,7 +1,19 @@
 <div
   [ngClass]="[
-    isMenuOpened() ? 'menu-container__opened' : 'menu-container__hidden',
+    isMenuOpened() ? 'menu-container__opened' : 'menu-container__closed',
+    (isMobile() | async) && !isMenuOpened() ? 'menu-container__hidden' : '',
   ]"
   class="menu-container">
-  <zblog-courses-menu></zblog-courses-menu>
+  <mat-divider/>
+  <div class="menu-all-items">
+    <!--    <cosmos-menu-items [isMenuOpened]="isMenuOpened()" [items]="filteredMenuItems" />-->
+    <div>
+      <p>items</p>
+    </div>
+    <zblog-menu-bottom
+      (toggleDarkMode)="onToggleDarkMode()"
+      [isDarkMode]="isDarkMode()"
+      [isMenuOpened]="isMenuOpened()"
+      [version]="'1.0.0'"/>
+  </div>
 </div>

@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  .menu-bottom {
+    .menu-bottom_lightning {
+      .mat-mdc-icon-button {
+        background-color: mat.get-theme-color($theme, surface-dim);
+      }
+    }
+  }
+}
+
+@mixin theme-header-bottom($theme) {
+  @include color($theme);
+}
+
+

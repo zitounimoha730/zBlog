@@ -1,0 +1,12 @@
+<div class="menu-bottom">
+  <div class="menu-bottom_lightning">
+    <button (click)="onToggleDarkMode()" class="dark-icon-button" mat-icon-button>
+      <mat-icon [ngClass]="isDarkMode() ? 'dark-icon': 'light-icon'">{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}
+      </mat-icon>
+    </button>
+    @if (isMenuOpened()) {
+      <span class="menu-bottom_lightning__text"> Mode Jour/Nuit</span>
+    }
+  </div>
+  <span class="menu-bottom__version">v.{{ version() }}</span>
+</div>
