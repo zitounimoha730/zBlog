@@ -10,10 +10,10 @@
       <mat-label>Search ...</mat-label>
       <input (keydown)="onKeyDown($event)"
              [formControl]="searchControl"
-             [matAutocomplete]="esearchAutoComplete"
+             [matAutocomplete]="researchAutoComplete"
              matInput
              type="text">
-      <mat-autocomplete #esearchAutoComplete="matAutocomplete" [displayWith]="displaySearchFn">
+      <mat-autocomplete #researchAutoComplete="matAutocomplete" [displayWith]="displaySearchFn">
         @for (searchTerm of matchingSearch$(); track searchTerm) {
           <mat-option [value]="searchTerm">{{ searchTerm }}</mat-option>
         }

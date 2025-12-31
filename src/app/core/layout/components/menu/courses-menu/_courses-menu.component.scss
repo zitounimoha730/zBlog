@@ -2,7 +2,13 @@
 
 @mixin color($theme) {
   .course-menu-container {
-    
+    .menu-item:hover {
+      background: mat.get-theme-color($theme, primary, 80);
+    }
+
+    .submenu li:hover {
+      background: mat.get-theme-color($theme, primary, 90);
+    }
   }
 }
 

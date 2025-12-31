@@ -1,15 +1,24 @@
 <div class="course-menu-container">
-  <button [matMenuTriggerFor]="angularMenu" matButton>Angular</button>
-  <mat-menu #angularMenu="matMenu">
-    @for (course of coursesService.angularCourses(); track course.key) {
-      <button mat-menu-item (click)="goToCourse(course)">{{ course.label }}</button>
-    }
-  </mat-menu>
+  <nav class="nav-menu">
+    <ul>
+      @for (item of menu; track item.label) {
+        <li>
+          <div (click)="toggle(item)" class="menu-item">
+            <span>{{ item.label }}</span>
+            <span [class.open]="item.expanded" class="arrow">▶</span>
+          </div>
 
-  <button [matMenuTriggerFor]="javaMenu" matButton>Java</button>
-  <mat-menu #javaMenu="matMenu">
-    @for (course of coursesService.javaCourses(); track course.key) {
-      <button mat-menu-item (click)="goToCourse(course)">{{ course.label }}</button>
-    }
-  </mat-menu>
+          @if (item.children && item.expanded) {
+            <ul class="submenu">
+              @for (child of item.children; track child.label) {
+                <li>
+                  {{ child.label }}
+                </li>
+              }
+            </ul>
+          }
+        </li>
+      }
+    </ul>
+  </nav>
 </div>

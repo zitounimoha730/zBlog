@@ -18,18 +18,10 @@
   }
 
   &.menu-container__opened {
-    width: 18.75rem;
+    width: 15rem;
   }
 
   &.menu-container__hidden {
     display: none;
-  }
-
-  .menu-all-items {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    justify-content: space-between;
-    overflow: hidden;
   }
 }
