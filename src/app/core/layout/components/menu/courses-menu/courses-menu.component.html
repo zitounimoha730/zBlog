@@ -11,7 +11,7 @@
           @if (item.children && item.expanded) {
             <ul class="submenu">
               @for (child of item.children; track child.label) {
-                <li>
+                <li (click)="openCourse(child)">
                   {{ child.label }}
                 </li>
               }

@@ -1,6 +1,8 @@
-import {ChangeDetectionStrategy, Component, ViewEncapsulation,} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, ViewEncapsulation,} from '@angular/core';
 import {MenuItem} from '../../models/menu-item';
 import {buildCoursesMenu} from '../../../utils/build-courses-menu';
+import {LayoutService} from '../../../services/layout.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'zblog-courses-menu',
@@ -11,9 +13,16 @@ import {buildCoursesMenu} from '../../../utils/build-courses-menu';
   encapsulation: ViewEncapsulation.None,
 })
 export class CoursesMenuComponent {
-  menu: MenuItem[] = buildCoursesMenu();
+  protected menu: MenuItem[] = buildCoursesMenu();
+  private layoutService = inject(LayoutService);
+  private router = inject(Router);
 
-  toggle(item: MenuItem) {
+  protected toggle(item: MenuItem) {
     item.expanded = !item.expanded;
+  }
+
+  protected openCourse(child: MenuItem) {
+    this.layoutService.toggleMenu();
+    this.router.navigate([`/${child.key}`])
   }
 }

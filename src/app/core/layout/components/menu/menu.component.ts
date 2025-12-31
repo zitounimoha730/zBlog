@@ -22,7 +22,7 @@ import {CoursesMenuComponent} from './courses-menu/courses-menu.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class MenuComponent {
-  protected layoutService = inject(LayoutService);
+  private layoutService = inject(LayoutService);
   protected readonly isMenuOpened: Signal<boolean> = this.layoutService.isMenuOpened();
   protected readonly isDarkMode: Signal<boolean> = this.layoutService.isDarkMode();
   private responsiveService = inject(ResponsiveService);
