@@ -1,36 +1,37 @@
 .layout-header {
   height: 4rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
-  .layout-header_label {
-    margin-left: 1.25rem;
-  }
-
-  .selection-container {
+  .layout-header_menu {
+    flex-shrink: 0;
     display: flex;
-    gap: 1.3rem;
     align-items: center;
-    justify-content: center;
+
+    .app_label {
+      margin-left: 1.25rem;
+    }
 
     .close-icon {
       margin-left: 0;
     }
 
+  }
+
+  .selection-container {
+    flex: 1;
+    display: flex;
+    justify-items: right;
+
     .term-search {
       width: 15rem;
       margin-top: 1rem;
+      margin-left: auto;
     }
 
-    .small-search {
+    mat-form-field.small-search {
+      height: 4rem !important;
       width: 10rem !important;
-      margin-top: 1.5rem !important;
-
-      mat-form-field {
-        height: 0.5rem !important;
-      }
     }
-
   }
 }

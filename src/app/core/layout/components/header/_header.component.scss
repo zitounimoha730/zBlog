@@ -4,16 +4,12 @@
   .layout-header {
     background: linear-gradient(to right, mat.get-theme-color($theme, primary, 60), mat.get-theme-color($theme, primary, 30));
 
-    .layout-header_icon {
-      color: mat.get-theme-color($theme, on-primary);
-    }
+    .layout-header_menu {
+      .close-icon {
+        color: mat.get-theme-color($theme, on-primary);
+      }
 
-    .layout-header_label {
-      color: mat.get-theme-color($theme, on-primary);
-    }
-
-    .course-menu {
-      .mdc-button__label {
+      .app_label {
         color: mat.get-theme-color($theme, on-primary);
       }
     }

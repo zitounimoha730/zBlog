@@ -4,6 +4,7 @@
 @use 'app/core/layout/components/header/_header.component.scss' as app-header;
 @use 'app/core/layout/components/menu/_menu.component.scss' as app-menu;
 @use 'app/core/layout/components/menu/menu-bottom/_menu-bottom.component.scss' as app-menu-bottom;
+@use 'app/core/layout/components/menu/courses-menu/_courses-menu.component.scss' as app-courses-menu;
 
 @include mat.elevation-classes();
 @include mat.app-background();
@@ -62,6 +63,7 @@ $zblog-theme-dark: mat.define-theme($zblog-theme-dark-config);
   @include app-header.theme-layout-header($theme);
   @include app-menu.theme-menu($theme);
   @include app-menu-bottom.theme-header-bottom($theme);
+  @include app-courses-menu.theme-courses-menu($theme);
 }
 
 html,

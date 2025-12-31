@@ -1,0 +1,11 @@
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  .course-menu-container {
+    
+  }
+}
+
+@mixin theme-courses-menu($theme) {
+  @include color($theme);
+}

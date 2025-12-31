@@ -5,7 +5,7 @@ import {MatDivider} from '@angular/material/divider';
 import {MenuBottomComponent} from './menu-bottom/menu-bottom.component';
 import {Observable} from 'rxjs';
 import {ResponsiveService} from '../../services/responsive.service';
-import {CoursesMenuComponent} from '../courses-menu/courses-menu.component';
+import {CoursesMenuComponent} from './courses-menu/courses-menu.component';
 
 @Component({
   selector: 'zblog-menu',
