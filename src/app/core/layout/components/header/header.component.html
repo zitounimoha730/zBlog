@@ -10,8 +10,7 @@
   <div class="selection-container">
     <mat-form-field [ngClass]="{'small-search':(isMobile() | async)}" class="term-search">
       <mat-label>Search ...</mat-label>
-      <input (keydown)="onKeyDown($event)"
-             [formControl]="searchControl"
+      <input [formControl]="searchControl"
              [matAutocomplete]="researchAutoComplete"
              matInput
              type="text">
