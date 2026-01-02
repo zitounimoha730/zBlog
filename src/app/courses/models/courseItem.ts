@@ -1,9 +1,9 @@
 import {AbstractCourseComponent} from '../components/abstract-course.component';
 
-export interface CourseConfigItem {
+export interface CourseItem {
   path?: string;
   label: string;
   expanded?: boolean;
   component?: AbstractCourseComponent,
-  children?: CourseConfigItem[]
+  children?: CourseItem[]
 }

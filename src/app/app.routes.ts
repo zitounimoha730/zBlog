@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 import {ALL_COURSE_CONFIG} from './courses/config/courses-config-item';
-import {CourseConfigItem} from './courses/models/courseConfigItem';
+import {CourseItem} from './courses/models/courseItem';
 
 export const routes: Routes = [
   {
@@ -23,7 +23,7 @@ function convertConfigToRoutes() {
   return getCoursesPaths(ALL_COURSE_CONFIG);
 }
 
-function getCoursesPaths(courses: CourseConfigItem[]) {
+function getCoursesPaths(courses: CourseItem[]) {
   const routes: any[] = []
   for (let i = 0; i < courses.length; i++) {
     const course = courses[i];

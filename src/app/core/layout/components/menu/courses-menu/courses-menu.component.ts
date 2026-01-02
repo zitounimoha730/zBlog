@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, signal, ViewEncapsulation, WritableSignal,} from '@angular/core';
 import {LayoutService} from '../../../services/layout.service';
 import {Router} from '@angular/router';
-import {CourseConfigItem} from '../../../../../courses/models/courseConfigItem';
+import {CourseItem} from '../../../../../courses/models/courseItem';
 import {ALL_COURSE_CONFIG} from '../../../../../courses/config/courses-config-item';
 import {NgClass} from '@angular/common';
 
@@ -16,16 +16,16 @@ import {NgClass} from '@angular/common';
   encapsulation: ViewEncapsulation.None,
 })
 export class CoursesMenuComponent {
-  protected menu: CourseConfigItem[] = ALL_COURSE_CONFIG
-  protected selectedCourse: WritableSignal<CourseConfigItem | undefined> = signal(undefined);
+  protected menu: CourseItem[] = ALL_COURSE_CONFIG
+  protected selectedCourse: WritableSignal<CourseItem | undefined> = signal(undefined);
   private layoutService = inject(LayoutService);
   private router = inject(Router);
 
-  protected toggle(item: CourseConfigItem) {
+  protected toggle(item: CourseItem) {
     item.expanded = !item.expanded;
   }
 
-  protected openCourse(item: CourseConfigItem) {
+  protected openCourse(item: CourseItem) {
     if (item.path) {
       this.selectedCourse.set(item);
       this.layoutService.toggleMenu();

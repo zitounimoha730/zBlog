@@ -3,10 +3,10 @@ import {Angular21Component} from '../components/angular/angular21.component';
 import {Angular20Component} from '../components/angular/angular20.component';
 import {NgxsComponent} from '../components/angular/ngxs.component';
 import {Java24Component} from '../components/java/java24.component';
-import {CourseConfigItem} from '../models/courseConfigItem';
+import {CourseItem} from '../models/courseItem';
 import {DesignPatternsComponent} from '../components/design-patterns/design-patternscomponent';
 
-export const ALL_COURSE_CONFIG: CourseConfigItem[] = [
+export const ALL_COURSE_CONFIG: CourseItem[] = [
   {
     label: "Angular",
     children: [

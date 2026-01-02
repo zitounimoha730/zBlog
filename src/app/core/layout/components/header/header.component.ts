@@ -10,7 +10,7 @@ import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {ResponsiveService} from '../../services/responsive.service';
 import {map, Observable, startWith} from 'rxjs';
 import {ALL_COURSE_CONFIG} from '../../../../courses/config/courses-config-item';
-import {CourseConfigItem} from '../../../../courses/models/courseConfigItem';
+import {CourseItem} from '../../../../courses/models/courseItem';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {Router} from '@angular/router';
 
@@ -36,23 +36,23 @@ import {Router} from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent {
-  protected searchControl = new FormControl<CourseConfigItem | undefined>(undefined, {nonNullable: true});
-  protected matchingSearch$: Signal<CourseConfigItem[]> = toSignal(this.searchControl.valueChanges.pipe(
+  protected searchControl = new FormControl<CourseItem | undefined>(undefined, {nonNullable: true});
+  protected matchingSearch$: Signal<CourseItem[]> = toSignal(this.searchControl.valueChanges.pipe(
     startWith(''),
     map(value => this.filterCourses(value))
   ), {initialValue: []});
-  private allCourses: CourseConfigItem[] = this.extractSearchItems(ALL_COURSE_CONFIG);
+  private allCourses: CourseItem[] = this.extractSearchItems(ALL_COURSE_CONFIG);
   private layoutService = inject(LayoutService);
   private responsiveService = inject(ResponsiveService);
-  private searchChange$: Signal<CourseConfigItem | undefined | string>;
+  private searchChange$: Signal<CourseItem | undefined | string>;
   private router = inject(Router);
 
   constructor() {
     this.searchChange$ = toSignal(this.searchControl.valueChanges, {initialValue: undefined});
     effect(() => {
       const value = this.searchChange$();
-      if (value && (value as CourseConfigItem)["path"]) {
-        this.router.navigate([`/${(value as CourseConfigItem)["path"]}`]);
+      if (value && (value as CourseItem)["path"]) {
+        this.router.navigate([`/${(value as CourseItem)["path"]}`]);
       }
     });
   }
@@ -61,7 +61,7 @@ export class HeaderComponent {
     return this.responsiveService.isMobile();
   }
 
-  protected displaySearchFn(course: CourseConfigItem | undefined): string {
+  protected displaySearchFn(course: CourseItem | undefined): string {
     return course?.label ?? '';
   }
 
@@ -69,14 +69,14 @@ export class HeaderComponent {
     this.layoutService.toggleMenu();
   }
 
-  private filterCourses(value: string | CourseConfigItem | undefined): CourseConfigItem[] {
+  private filterCourses(value: string | CourseItem | undefined): CourseItem[] {
     const search = typeof value === 'string' ? value : value?.label;
     return this.allCourses.filter(c =>
       c.label.toLowerCase().includes(search?.toLowerCase() ?? '')
     );
   }
 
-  private extractSearchItems(courses: CourseConfigItem[]): CourseConfigItem[] {
+  private extractSearchItems(courses: CourseItem[]): CourseItem[] {
     const all = [];
     for (let i = 0; i < courses.length; i++) {
       const course = courses[i];
