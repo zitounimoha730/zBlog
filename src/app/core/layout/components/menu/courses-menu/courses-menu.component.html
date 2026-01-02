@@ -2,16 +2,20 @@
   <nav class="nav-menu">
     <ul>
       @for (item of menu; track item.label) {
-        <li>
-          <div (click)="toggle(item)" class="menu-item">
+        <li (click)="openCourse(item)">
+          <div (click)="toggle(item)" class="menu-item"
+               [ngClass]="{'opened-course': item.path === selectedCourse()?.path}">
             <span>{{ item.label }}</span>
-            <span [class.open]="item.expanded" class="arrow">▶</span>
+            @if (item.children?.length) {
+              <span [class.open]="item.expanded" class="arrow">▶</span>
+            }
           </div>
 
           @if (item.children && item.expanded) {
             <ul class="submenu">
               @for (child of item.children; track child.label) {
-                <li (click)="openCourse(child)">
+                <li (click)="openCourse(child)"
+                    [ngClass]="{'opened-course': child.path === selectedCourse()?.path}">
                   {{ child.label }}
                 </li>
               }

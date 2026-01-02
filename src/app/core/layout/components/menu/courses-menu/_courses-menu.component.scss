@@ -2,11 +2,11 @@
 
 @mixin color($theme) {
   .course-menu-container {
-    .menu-item:hover {
+    .menu-item:hover, .opened-course {
       background: mat.get-theme-color($theme, primary, 80);
     }
 
-    .submenu li:hover {
+    .submenu li:hover, .opened-course {
       background: mat.get-theme-color($theme, primary, 90);
     }
   }

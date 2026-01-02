@@ -1,12 +1,8 @@
-import {Route, Routes} from '@angular/router';
-import {COURSE_CONFIG_MAP} from './courses/config/courses.config';
-import {GreetingsComponent} from './greetings/components/greetings.component';
+import {Routes} from '@angular/router';
+import {ALL_COURSE_CONFIG} from './courses/config/courses-config-item';
+import {CourseConfigItem} from './courses/models/courseConfigItem';
 
 export const routes: Routes = [
-  {
-    path: 'greetings',
-    component: GreetingsComponent,
-  },
   {
     path: 'home',
     loadComponent: () => import('./core/home/components/home.component').then(m => m.HomeComponent),
@@ -15,18 +11,29 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'greetings',
+    redirectTo: 'home',
   },
   {
     path: '**',
-    redirectTo: 'greetings',
+    redirectTo: 'home',
   },
 ];
 
 function convertConfigToRoutes() {
-  const allCourses = Object.values(COURSE_CONFIG_MAP).flat();
-  return allCourses.map(config => ({
-    path: config.key,
-    component: config.component
-  } as Route))
+  return getCoursesPaths(ALL_COURSE_CONFIG);
+}
+
+function getCoursesPaths(courses: CourseConfigItem[]) {
+  const routes: any[] = []
+  for (let i = 0; i < courses.length; i++) {
+    const course = courses[i];
+    if (course.component) {
+      routes.push({path: course.path, component: course.component!});
+    }
+    if (course.children) {
+      const childrenRoutes = getCoursesPaths(course.children);
+      routes.push(...childrenRoutes);
+    }
+  }
+  return routes;
 }
