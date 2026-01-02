@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, inject, signal, Signal, ViewEncapsulation,} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  Signal,
+  signal,
+  ViewEncapsulation,
+  WritableSignal,
+} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
@@ -10,6 +19,10 @@ import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/mater
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {ResponsiveService} from '../../services/responsive.service';
 import {Observable} from 'rxjs';
+import {ALL_COURSE_CONFIG} from '../../../../courses/config/courses-config-item';
+import {CourseConfigItem} from '../../../../courses/models/courseConfigItem';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'zblog-header',
@@ -33,17 +46,30 @@ import {Observable} from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent {
-  protected searchControl = new FormControl<string>('', {nonNullable: true});
-  protected matchingSearch$: Signal<string[]> = signal(['hello', 'world', 'angular', 'java']);
+  protected searchControl = new FormControl<CourseConfigItem | undefined>(undefined, {nonNullable: true});
+  protected matchingSearch$: WritableSignal<CourseConfigItem[]> = signal([]);
   private layoutService = inject(LayoutService);
   private responsiveService = inject(ResponsiveService);
+  private searchChange$: Signal<CourseConfigItem | undefined | string>;
+  private router = inject(Router);
+
+  constructor() {
+    this.initSearchOptions();
+    this.searchChange$ = toSignal(this.searchControl.valueChanges, {initialValue: undefined});
+    effect(() => {
+      const value = this.searchChange$();
+      if (value && (value as CourseConfigItem)["path"]) {
+        this.router.navigate([`/${(value as CourseConfigItem)["path"]}`]);
+      }
+    });
+  }
 
   protected isMobile(): Observable<boolean> {
     return this.responsiveService.isMobile();
   }
 
-  protected displaySearchFn(searchTerm: string): string {
-    return searchTerm ?? '';
+  protected displaySearchFn(course: CourseConfigItem | undefined): string {
+    return course?.label ?? '';
   }
 
   protected onToggleMenu() {
@@ -61,5 +87,25 @@ export class HeaderComponent {
         event.preventDefault();
       }
     }
+  }
+
+  private initSearchOptions() {
+    const extracted = this.extractSearchItems(ALL_COURSE_CONFIG);
+    this.matchingSearch$.set(extracted);
+  }
+
+  private extractSearchItems(courses: CourseConfigItem[]): CourseConfigItem[] {
+    const all = [];
+    for (let i = 0; i < courses.length; i++) {
+      const course = courses[i];
+      if (course.path) {
+        all.push(course);
+      }
+      if (course.children) {
+        const allChildren = this.extractSearchItems(course.children);
+        all.push(...allChildren);
+      }
+    }
+    return all;
   }
 }

@@ -16,8 +16,8 @@
              matInput
              type="text">
       <mat-autocomplete #researchAutoComplete="matAutocomplete" [displayWith]="displaySearchFn">
-        @for (searchTerm of matchingSearch$(); track searchTerm) {
-          <mat-option [value]="searchTerm">{{ searchTerm }}</mat-option>
+        @for (course of matchingSearch$(); track course.path) {
+          <mat-option [value]="course">{{ course.label }}</mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
