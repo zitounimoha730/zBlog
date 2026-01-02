@@ -37,11 +37,8 @@ import {Router} from '@angular/router';
 })
 export class HeaderComponent {
   protected searchControl = new FormControl<CourseItem | undefined>(undefined, {nonNullable: true});
-  protected matchingSearch$: Signal<CourseItem[]> = toSignal(this.searchControl.valueChanges.pipe(
-    startWith(''),
-    map(value => this.filterCourses(value))
-  ), {initialValue: []});
-  private allCourses: CourseItem[] = this.extractSearchItems(ALL_COURSE_CONFIG);
+  protected matchingSearch$: Signal<CourseItem[]>;
+  private allCourses: CourseItem[];
   private layoutService = inject(LayoutService);
   private responsiveService = inject(ResponsiveService);
   private searchChange$: Signal<CourseItem | undefined | string>;
@@ -55,6 +52,11 @@ export class HeaderComponent {
         this.router.navigate([`/${(value as CourseItem)["path"]}`]);
       }
     });
+    this.allCourses = this.extractSearchItems(ALL_COURSE_CONFIG);
+    this.matchingSearch$ = toSignal(this.searchControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterCourses(value))
+    ), {initialValue: []});
   }
 
   protected isMobile(): Observable<boolean> {
