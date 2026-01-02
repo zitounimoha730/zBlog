@@ -1,7 +1,6 @@
 <div
   [ngClass]="[
-    isMenuOpened() ? 'menu-container__opened' : 'menu-container__closed',
-    (isMobile() | async) && !isMenuOpened() ? 'menu-container__hidden' : '',
+    (isMobile() | async) && !isMenuOpened() ? 'menu-container__hidden' : 'menu-container__opened',
   ]"
   class="menu-container">
   <mat-divider/>

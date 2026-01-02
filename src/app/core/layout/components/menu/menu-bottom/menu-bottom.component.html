@@ -4,9 +4,9 @@
       <mat-icon [ngClass]="isDarkMode() ? 'dark-icon': 'light-icon'">{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}
       </mat-icon>
     </button>
-    @if (isMenuOpened()) {
-      <span class="menu-bottom_lightning__text"> Mode Jour/Nuit</span>
-    }
+    <span class="menu-bottom_lightning__text"> Mode Jour/Nuit</span>
   </div>
-  <span class="menu-bottom__version">v.{{ version() }}</span>
+  <div>
+    <span class="menu-bottom__version">Version: v.{{ version() }}</span>
+  </div>
 </div>

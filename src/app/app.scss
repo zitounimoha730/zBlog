@@ -1,5 +1,19 @@
+.full-width {
+  justify-content: center;
+  display: flex;
+  height: 100%;
+
+  .app-layout {
+    width: 80rem !important;
+  }
+}
+
 .app-layout {
   display: flex;
   flex-direction: row;
   height: 100%;
+
+  .app-content {
+    padding: 1rem;
+  }
 }

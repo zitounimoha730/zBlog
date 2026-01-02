@@ -1,8 +1,10 @@
 <mat-toolbar class="layout-header">
   <div class="layout-header_menu">
-    <button (click)="onToggleMenu()" class="menu_button" mat-icon-button>
-      <mat-icon class="menu_button_icon">menu</mat-icon>
-    </button>
+    @if (isMobile() | async) {
+      <button (click)="onToggleMenu()" class="menu_button" mat-icon-button>
+        <mat-icon class="menu_button_icon">menu</mat-icon>
+      </button>
+    }
     <span class="app_label">Z-blog</span>
   </div>
   <div class="selection-container">

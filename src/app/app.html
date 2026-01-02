@@ -1,3 +1,8 @@
-<zblog-layout class="app-layout">
-  <router-outlet/>
-</zblog-layout>
+<div [ngClass]="{'full-width': !(isMobile() | async)}">
+  <zblog-layout class="app-layout">
+    <div class="app-content">
+      <router-outlet/>
+    </div>
+  </zblog-layout>
+</div>
+
