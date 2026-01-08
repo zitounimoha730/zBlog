@@ -1,4 +1,4 @@
-<div [ngClass]="{'full-width': !(isMobile() | async)}">
+<div [ngClass]="{'max-size': !(isMobile() | async), 'min-size':(isMobile() | async)}">
   <zblog-layout class="app-layout">
     <div class="app-content">
       <router-outlet/>

@@ -1,4 +1,4 @@
-.full-width {
+.max-size {
   justify-content: center;
   display: flex;
   height: 100%;
@@ -6,6 +6,11 @@
   .app-layout {
     width: 80rem !important;
   }
+}
+
+.min-size {
+  overflow: auto;
+  max-height: 740px;
 }
 
 .app-layout {
