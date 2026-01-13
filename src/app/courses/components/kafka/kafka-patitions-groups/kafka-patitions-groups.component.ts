@@ -1,5 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {AbstractCourseComponent} from '../abstract-course.component';
+import {AbstractCourseComponent} from '../../abstract-course.component';
 import hljs from 'highlight.js';
 
 @Component({

@@ -5,7 +5,10 @@ import {NgxsComponent} from '../components/angular/ngxs.component';
 import {Java24Component} from '../components/java/java24.component';
 import {CourseItem} from '../models/courseItem';
 import {DesignPatternsComponent} from '../components/design-patterns/design-patterns.component';
-import {KafkaPatitionsGroupsComponent} from '../components/kafka/kafka-patitions-groups.component';
+import {KafkaPatitionsGroupsComponent} from '../components/kafka/kafka-patitions-groups/kafka-patitions-groups.component';
+import {
+  KafkaRebalanceOffsetsStreamsComponent
+} from '../components/kafka/kafka-rebalance-offsets-streams/kafka-rebalance-offsets-streams.component';
 
 export const ALL_COURSE_CONFIG: CourseItem[] = [
   {
@@ -50,7 +53,11 @@ export const ALL_COURSE_CONFIG: CourseItem[] = [
       path: 'partitions-groups',
       label: 'Kafka Partitions & Groups',
       component: KafkaPatitionsGroupsComponent,
-    },]
+    },{
+      path: 'kafka-rebalance-offsets-stream',
+      label: 'Rebalance, Offsets, Streams et Design',
+      component: KafkaRebalanceOffsetsStreamsComponent,
+    }]
   },
   {
     label: 'Design Patterns',

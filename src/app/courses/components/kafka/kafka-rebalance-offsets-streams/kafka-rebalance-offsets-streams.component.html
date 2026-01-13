@@ -1,0 +1,178 @@
+<h1>Kafka Avancé – Rebalance, Offsets, Streams et Design</h1>
+
+<h2>🔄 Rebalance et Assignors</h2>
+
+<h3>Qu’est-ce qu’un rebalance ?</h3>
+<p>
+  Un <strong>rebalance</strong> est une redistribution des partitions entre les consumers d’un même group.
+</p>
+
+<p>Il se produit lorsque :</p>
+<ul>
+  <li>un consumer démarre</li>
+  <li>un consumer s’arrête ou crash</li>
+  <li>le nombre de partitions change</li>
+</ul>
+
+<div class="warning">
+  Pendant un rebalance, la consommation est temporairement <strong>arrêtée</strong>.
+</div>
+
+<h3>Assignors (stratégies d’attribution)</h3>
+
+<ul>
+  <li><strong>RangeAssignor</strong> : partitions contiguës (déséquilibres possibles)</li>
+  <li><strong>RoundRobinAssignor</strong> : répartition uniforme</li>
+  <li><strong>StickyAssignor</strong> : minimise les mouvements (recommandé)</li>
+  <li><strong>CooperativeStickyAssignor</strong> : rebalance progressif (Kafka récent)</li>
+</ul>
+
+<div class="note">
+  En production moderne, <strong>CooperativeStickyAssignor</strong> est fortement recommandé.
+</div>
+
+<h2>🧠 Offsets et Commit</h2>
+
+<h3>Offset</h3>
+<p>
+  Un <strong>offset</strong> est la position d’un message dans une partition.
+</p>
+
+<pre>
+Partition P0:
+offset 0 | offset 1 | offset 2 | offset 3
+</pre>
+
+<p>
+  Chaque <strong>consumer group</strong> possède ses propres offsets.
+</p>
+
+<h3>Commit d’offset</h3>
+
+<ul>
+  <li><strong>Auto-commit</strong> : simple mais risqué</li>
+  <li><strong>Manual commit</strong> : plus sûr, recommandé</li>
+</ul>
+
+<h3>Stratégies de traitement</h3>
+
+<ul>
+  <li><strong>At most once</strong> : commit avant traitement (perte possible)</li>
+  <li><strong>At least once</strong> : commit après traitement (doublons possibles)</li>
+  <li><strong>Exactly once</strong> : transactions Kafka (Streams)</li>
+</ul>
+
+<div class="note">
+  Kafka privilégie naturellement le modèle <strong>At least once</strong>.
+</div>
+
+<h2>🌊 Kafka Streams et Agrégation par Clé</h2>
+
+<h3>Kafka Streams</h3>
+<p>
+  Kafka Streams est une librairie Java pour le <strong>traitement de flux</strong> directement sur Kafka.
+</p>
+
+<ul>
+  <li>pas de cluster séparé</li>
+  <li>scalabilité automatique</li>
+  <li>state local + changelog Kafka</li>
+</ul>
+
+<h3>Pourquoi la clé est obligatoire ?</h3>
+
+<p>
+  Les opérations suivantes nécessitent une clé :
+</p>
+
+<ul>
+  <li>aggregation</li>
+  <li>count</li>
+  <li>reduce</li>
+  <li>join</li>
+</ul>
+
+<pre>
+KStream
+ → groupByKey()
+ → aggregate(...)
+</pre>
+
+<div class="note">
+  La clé détermine la partition → la tâche Streams → l’état local.
+</div>
+
+<h2>⚠️ Erreurs Classiques de Design Kafka</h2>
+
+<ul>
+  <li>❌ Trop peu de partitions → pas scalable</li>
+  <li>❌ Mauvaise clé (ex : timestamp)</li>
+  <li>❌ Utiliser Kafka comme une queue classique</li>
+  <li>❌ Changer le nombre de partitions trop tard</li>
+  <li>❌ Auto-commit en production critique</li>
+  <li>❌ Coupler le consumer à la base de données</li>
+</ul>
+
+<div class="warning">
+  Kafka est un <strong>log distribué</strong>, pas une simple file FIFO.
+</div>
+
+<h2>🧪 Schémas Concrets d’Architecture</h2>
+
+<h3>Architecture Event-Driven</h3>
+
+<pre>
+Service A
+  |
+  |-- Event --> Kafka Topic
+  |
+Service B ──┐
+Service C ──┼─ Consumers indépendants
+Service D ──┘
+</pre>
+
+<ul>
+  <li>faible couplage</li>
+  <li>scalabilité naturelle</li>
+  <li>replay possible</li>
+</ul>
+
+<h3>CQRS avec Kafka</h3>
+
+<pre>
+Command Service
+  |
+  |-- Command Event --> Kafka
+  |
+Write Model
+  |
+  |-- Domain Event --> Kafka
+  |
+Read Models (multiples projections)
+</pre>
+
+<ul>
+  <li>séparation lecture / écriture</li>
+  <li>reconstruction de l’état possible</li>
+  <li>audit et traçabilité</li>
+</ul>
+
+<div class="note">
+  Kafka est souvent utilisé comme <strong>backbone event-driven</strong> pour CQRS.
+</div>
+
+<h2>Conclusion</h2>
+<p>
+  Kafka n’est pas seulement un broker de messages :
+</p>
+
+<ul>
+  <li>c’est un <strong>journal distribué</strong></li>
+  <li>une <strong>plateforme d’événements</strong></li>
+  <li>un moteur de <strong>stream processing</strong></li>
+</ul>
+
+<p>
+  Une bonne compréhension des partitions, clés, offsets et rebalances
+  est essentielle pour un système fiable et scalable.
+</p>

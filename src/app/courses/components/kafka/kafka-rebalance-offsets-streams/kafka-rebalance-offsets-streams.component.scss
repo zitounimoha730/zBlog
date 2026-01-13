@@ -1,0 +1,30 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 15px;
+}
+table, th, td {
+  border: 1px solid #d1d5db;
+}
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+th {
+  background-color: #e5e7eb;
+}
+ul {
+  margin-left: 20px;
+}
+.note {
+  background-color: #eff6ff;
+  border-left: 5px solid #3b82f6;
+  padding: 10px;
+  margin: 20px 0;
+}
+.warning {
+  background-color: #fff7ed;
+  border-left: 5px solid #f97316;
+  padding: 10px;
+  margin: 20px 0;
+}
