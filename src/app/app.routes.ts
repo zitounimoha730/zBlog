@@ -28,7 +28,8 @@ function getCoursesPaths(courses: CourseItem[]) {
   for (let i = 0; i < courses.length; i++) {
     const course = courses[i];
     if (course.component) {
-      routes.push({path: course.path, component: course.component!});
+      const route = {path: course.path, component: course.component!};
+      routes.push(route);
     }
     if (course.children) {
       const childrenRoutes = getCoursesPaths(course.children);
