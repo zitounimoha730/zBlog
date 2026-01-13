@@ -4,7 +4,8 @@ import {Angular20Component} from '../components/angular/angular20.component';
 import {NgxsComponent} from '../components/angular/ngxs.component';
 import {Java24Component} from '../components/java/java24.component';
 import {CourseItem} from '../models/courseItem';
-import {DesignPatternsComponent} from '../components/design-patterns/design-patternscomponent';
+import {DesignPatternsComponent} from '../components/design-patterns/design-patterns.component';
+import {KafkaPatitionsGroupsComponent} from '../components/kafka/kafka-patitions-groups.component';
 
 export const ALL_COURSE_CONFIG: CourseItem[] = [
   {
@@ -42,6 +43,14 @@ export const ALL_COURSE_CONFIG: CourseItem[] = [
         label: 'Java 24',
         component: Java24Component,
       }]
+  },
+  {
+    label: 'Kafka',
+    children: [{
+      path: 'partitions-groups',
+      label: 'Kafka Partitions & Groups',
+      component: KafkaPatitionsGroupsComponent,
+    },]
   },
   {
     label: 'Design Patterns',

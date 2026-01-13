@@ -4,21 +4,29 @@
   height: 100%;
 
   .app-layout {
-    width: 80rem !important;
+    .app-content {
+      left: 18rem !important;
+      width: calc(100vw - 18rem);
+      position: absolute;
+      top: 4rem;
+      overflow: auto;
+      height: calc(100vh - 4rem);
+    }
   }
 }
 
 .min-size {
   overflow: auto;
   max-height: 740px;
+  .app-layout {
+    .app-content {
+     padding: 0.5rem;
+    }
+  }
 }
 
 .app-layout {
   display: flex;
   flex-direction: row;
   height: 100%;
-
-  .app-content {
-    padding: 1rem;
-  }
 }

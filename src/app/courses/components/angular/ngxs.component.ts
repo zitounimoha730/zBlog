@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {AbstractCourseComponent} from '../abstract-course.component';
+import hljs from 'highlight.js';
 
 @Component({
   selector: 'zblog-angular21',
@@ -18,7 +19,7 @@ import {AbstractCourseComponent} from '../abstract-course.component';
     <pre><code>{{ examplesOfUseCode }}</code></pre>
   `,
 })
-export class NgxsComponent extends AbstractCourseComponent {
+export class NgxsComponent extends AbstractCourseComponent implements AfterViewInit {
   protected dependencyCode = `
 $ ng add @ngxs/store
 =>
@@ -26,7 +27,7 @@ $ ng add @ngxs/store
   "@ngxs/store": "^21.0.0"
   `;
   protected appConfigCode = `
-...
+# ...
 import {NgxsModuleOptions, provideStore} from '@ngxs/store';
 import {UserState} from './state/user/user.state';
 
@@ -197,4 +198,10 @@ export class AccountComponent {
 
 
 `;
+
+  public ngAfterViewInit() {
+    document.querySelectorAll('pre code').forEach((el) => {
+      hljs.highlightElement(el as unknown as HTMLElement);
+    });
+  }
 }

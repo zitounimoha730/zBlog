@@ -9,6 +9,8 @@
 @include mat.elevation-classes();
 @include mat.app-background();
 
+@import "highlight.js/styles/atom-one-dark.min.css";
+
 $zblog-theme-light-config: (
   color: (
     theme-type: light,

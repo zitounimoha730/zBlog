@@ -1,7 +1,10 @@
 .layout-header {
-  height: 4rem;
+  height: 4rem !important;
   display: flex;
   align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
 
   .layout-header_menu {
     flex-shrink: 0;
@@ -29,7 +32,7 @@
       margin-left: auto;
     }
 
-    mat-form-field.small-search {
+    mat-form-field.mobile-search {
       height: 4rem !important;
       width: 10rem !important;
     }

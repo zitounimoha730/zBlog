@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {AbstractCourseComponent} from '../abstract-course.component';
+import hljs from 'highlight.js';
 
 @Component({
   selector: 'zblog-angular20',
@@ -9,6 +10,11 @@ import {AbstractCourseComponent} from '../abstract-course.component';
     <p>some new features from angular 20</p>
   `,
 })
-export class Angular20Component extends AbstractCourseComponent {
+export class Angular20Component extends AbstractCourseComponent implements AfterViewInit {
+  public ngAfterViewInit() {
+    document.querySelectorAll('pre code').forEach((el) => {
+      hljs.highlightElement(el as unknown as HTMLElement);
+    });
+  }
 
 }

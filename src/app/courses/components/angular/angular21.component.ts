@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {AbstractCourseComponent} from '../abstract-course.component';
+import hljs from 'highlight.js';
 
 @Component({
   selector: 'zblog-ngxs',
@@ -15,7 +16,7 @@ import {AbstractCourseComponent} from '../abstract-course.component';
     <pre><code>{{ productComponentCode }}</code></pre>
   `,
 })
-export class Angular21Component extends AbstractCourseComponent {
+export class Angular21Component extends AbstractCourseComponent implements AfterViewInit {
   protected productDataCode = `
 import {signal, WritableSignal} from '@angular/core';
 
@@ -36,7 +37,6 @@ export const emptyProduct: ProductData = {
 export const productModel: WritableSignal<ProductData> = signal<ProductData>(emptyProduct);
 
 `;
-
   protected productComponentCode = `
 import {Component, inject, Signal} from '@angular/core';
 import {Field, form, max, min, required} from '@angular/forms/signals';
@@ -81,4 +81,10 @@ export class ProductComponent {
   }
 }
 `;
+
+  public ngAfterViewInit() {
+    document.querySelectorAll('pre code').forEach((el) => {
+      hljs.highlightElement(el as unknown as HTMLElement);
+    });
+  }
 }

@@ -3,18 +3,17 @@ import {AbstractCourseComponent} from '../abstract-course.component';
 import hljs from 'highlight.js';
 
 @Component({
-  selector: 'zblog-java24',
+  selector: 'zblog-design-patterns',
   imports: [],
   template: `
-    <h3>Java 24</h3>
-    <p>.....</p>
+    <h3>Design Patterns</h3>
+    <p>some examples of design patterns</p>
   `,
 })
-export class Java24Component extends AbstractCourseComponent implements AfterViewInit {
+export class DesignPatternsComponent extends AbstractCourseComponent implements AfterViewInit {
   public ngAfterViewInit() {
     document.querySelectorAll('pre code').forEach((el) => {
       hljs.highlightElement(el as unknown as HTMLElement);
     });
   }
-
 }

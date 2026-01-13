@@ -8,7 +8,7 @@
     <span class="app_label">Z-blog</span>
   </div>
   <div class="selection-container">
-    <mat-form-field [ngClass]="{'small-search':(isMobile() | async)}" class="term-search">
+    <mat-form-field [ngClass]="{'mobile-search':(isMobile() | async)}" class="term-search">
       <mat-label>Search ...</mat-label>
       <input [formControl]="searchControl"
              [matAutocomplete]="researchAutoComplete"
