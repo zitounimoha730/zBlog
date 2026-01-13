@@ -1,5 +1,5 @@
-import {Component, effect, inject, Renderer2} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {Component, effect, inject, OnInit, Renderer2} from '@angular/core';
+import {Router, RouterOutlet} from '@angular/router';
 import {LayoutComponent} from './core/layout/components/layout.component';
 import {LayoutService} from './core/layout/services/layout.service';
 import {Observable} from 'rxjs';
@@ -17,9 +17,18 @@ export class App {
   private readonly DARK_THEME = 'dark-theme';
   private layoutService = inject(LayoutService);
   private responsiveService = inject(ResponsiveService);
+  private router = inject(Router);
 
   constructor() {
     this.initEffetcs();
+    this.openLastPage();
+  }
+
+  private openLastPage() {
+    const lastRoute = localStorage.getItem('last-route');
+    if(lastRoute) {
+      this.router.navigate([`/${lastRoute}`]);
+    }
   }
 
   protected isMobile(): Observable<boolean> {

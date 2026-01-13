@@ -29,6 +29,7 @@ export class CoursesMenuComponent {
     if (item.path) {
       this.selectedCourse.set(item);
       this.layoutService.toggleMenu();
+      localStorage.setItem('last-route', item.path);
       this.router.navigate([`/${item.path}`]);
     }
   }
