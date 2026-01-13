@@ -5,6 +5,58 @@ import hljs from 'highlight.js';
 @Component({
   selector: 'zblog-kafka-partitions-groups',
   imports: [],
+  styles: [`
+    .kafka-partitions-groups-container {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      color: #222;
+    }
+
+    h1, h2, h3 {
+      color: #1f2937;
+    }
+    h1 {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 10px;
+    }
+    h2 {
+      margin-top: 40px;
+      border-left: 5px solid #2563eb;
+      padding-left: 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+    }
+    table, th, td {
+      border: 1px solid #d1d5db;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #e5e7eb;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    .note {
+      background-color: #eff6ff;
+      border-left: 5px solid #3b82f6;
+      padding: 10px;
+      margin: 20px 0;
+    }
+    .warning {
+      background-color: #fff7ed;
+      border-left: 5px solid #f97316;
+      padding: 10px;
+      margin: 20px 0;
+    }
+  `],
   template: `
     <div class="kafka-partitions-groups-container">
  <h1>Comprendre Apache Kafka</h1>
