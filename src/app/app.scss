@@ -24,6 +24,7 @@
       top: 4rem;
       overflow: auto;
       padding-left: 0.5rem;
+      height: calc(100vh - 4rem);
     }
   }
 }
@@ -31,5 +32,4 @@
 .app-layout {
   display: flex;
   flex-direction: row;
-  height: 100%;
 }
