@@ -27,7 +27,7 @@ export class App {
   private openLastPage() {
     const lastRoute = localStorage.getItem('last-route');
     if(lastRoute) {
-      this.router.navigate([`/${lastRoute}`]);
+      this.router.navigate([`/${lastRoute}`]).then();
     }
   }
 
