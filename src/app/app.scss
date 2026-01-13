@@ -20,7 +20,10 @@
   max-height: 740px;
   .app-layout {
     .app-content {
-     padding: 0.5rem;
+      position: absolute;
+      top: 4rem;
+      overflow: auto;
+      padding-left: 0.5rem;
     }
   }
 }

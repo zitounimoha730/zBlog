@@ -1,0 +1,233 @@
+<div class="kafka-partitions-groups-container">
+  <h1>Comprendre Apache Kafka</h1>
+  <p>
+    Cluster Kafka avec <strong>3 brokers</strong> et <strong>3 ZooKeepers</strong> :
+    partitions, clés de messages et consumer groups.
+  </p>
+
+  <h2>1️⃣ Topics et Partitions</h2>
+
+  <h3>Topic</h3>
+  <p>
+    Un <strong>topic</strong> est une catégorie de messages (ex : <code>orders</code>, <code>payments</code>).
+  </p>
+
+  <h3>Partitions</h3>
+  <ul>
+    <li>Un topic est découpé en <strong>partitions</strong></li>
+    <li>Une partition est un <strong>log ordonné et immuable</strong></li>
+    <li>L’ordre est garanti <strong>uniquement à l’intérieur d’une partition</strong></li>
+    <li>Les partitions sont réparties sur les brokers</li>
+  </ul>
+
+  <pre>
+Topic: orders
+Partitions: P0, P1, P2
+Brokers:    B1, B2, B3
+
+B1 → P0
+B2 → P1
+B3 → P2
+</pre>
+
+  <p>
+    Plus de partitions = plus de <strong>parallélisme</strong>.
+  </p>
+
+  <h2>2️⃣ Réplication (cluster 3 brokers)</h2>
+
+  <p>
+    Chaque partition possède :
+  </p>
+  <ul>
+    <li>1 <strong>leader</strong></li>
+    <li>N <strong>replicas</strong> (ex : replication-factor = 3)</li>
+  </ul>
+
+  <pre>
+P0 → Leader B1, replicas B2, B3
+</pre>
+
+  <div class="note">
+    Les producteurs et consommateurs communiquent toujours avec le <strong>leader</strong>.
+    Les replicas assurent la <strong>tolérance aux pannes</strong>.
+  </div>
+
+  <h2>3️⃣ La clé (Key) d’un message</h2>
+
+  <p>
+    Un message Kafka contient :
+  </p>
+
+  <pre>
+key   → optionnelle
+value → obligatoire
+</pre>
+
+  <h3>Rôle de la clé</h3>
+  <p>
+    La clé sert à <strong>déterminer la partition</strong>.
+  </p>
+
+  <pre>
+partition = hash(key) % nombre_de_partitions
+</pre>
+
+  <div class="note">
+    Tous les messages ayant la <strong>même clé</strong> vont dans la <strong>même partition</strong>.
+  </div>
+
+  <h3>Exemple</h3>
+  <pre>
+key   = "user-42"
+value = "order-123"
+</pre>
+
+  <p>
+    Tous les messages de <code>user-42</code> :
+  </p>
+  <ul>
+    <li>arrivent dans la même partition</li>
+    <li>conservent leur ordre</li>
+  </ul>
+
+  <h3>Sans clé</h3>
+  <ul>
+    <li>Répartition en <strong>round-robin</strong></li>
+    <li>Aucun ordre métier garanti</li>
+  </ul>
+
+  <h2>4️⃣ La clé sert-elle à filtrer les messages ?</h2>
+
+  <div class="warning">
+    <strong>NON</strong> ❌
+    Kafka ne filtre pas les messages par clé.
+  </div>
+
+  <ul>
+    <li>Tous les messages sont stockés</li>
+    <li>Les consumers lisent tout ce qui est dans leurs partitions</li>
+  </ul>
+
+  <p>
+    Le filtrage se fait :
+  </p>
+  <ul>
+    <li>dans le code du consumer</li>
+    <li>ou via Kafka Streams / ksqlDB</li>
+  </ul>
+
+  <h2>5️⃣ Consumer Groups</h2>
+
+  <p>
+    Un <strong>consumer group</strong> permet de paralléliser la consommation.
+  </p>
+
+  <div class="note">
+    Règle fondamentale :
+    <strong>Une partition est consommée par un seul consumer dans un group</strong>.
+  </div>
+
+  <h3>Exemple</h3>
+
+  <pre>
+Topic: orders (3 partitions)
+Consumer Group: CG1
+Consumers: C1, C2, C3
+
+C1 → P0
+C2 → P1
+C3 → P2
+</pre>
+
+  <ul>
+    <li>Ajout/suppression d’un consumer → <strong>rebalance</strong></li>
+    <li>Plus de consumers que de partitions → consumers inactifs</li>
+  </ul>
+
+  <h2>6️⃣ Relation entre clé et consumer group</h2>
+
+  <div class="warning">
+    La clé <strong>n’influence pas</strong> le consumer directement.
+  </div>
+
+  <pre>
+key → partition → consumer
+</pre>
+
+  <ul>
+    <li>Même clé → même partition</li>
+    <li>Même partition → même consumer (dans un group)</li>
+  </ul>
+
+  <p>
+    Cela garantit un traitement séquentiel par entité métier
+    (utilisateur, commande, client, etc.).
+  </p>
+
+  <h2>7️⃣ Plusieurs Consumer Groups</h2>
+
+  <p>
+    Kafka permet la lecture multiple d’un même topic :
+  </p>
+
+  <pre>
+Topic: orders
+ ├── Group A (billing)
+ ├── Group B (shipping)
+ └── Group C (analytics)
+</pre>
+
+  <ul>
+    <li>Chaque group lit tous les messages</li>
+    <li>Offsets indépendants par group</li>
+  </ul>
+
+  <h2>8️⃣ Schéma mental à retenir</h2>
+
+  <pre>
+Producer
+  |
+  |-- key --> hash --> partition
+  |
+Topic (partitions)
+  |
+Consumer Group
+  |
+partition --> 1 consumer
+</pre>
+
+  <h2>9️⃣ Cas d’usage typiques de la clé</h2>
+
+  <table>
+    <tr>
+      <th>Besoin</th>
+      <th>Clé utilisée</th>
+    </tr>
+    <tr>
+      <td>Ordre par utilisateur</td>
+      <td>userId</td>
+    </tr>
+    <tr>
+      <td>Ordre par commande</td>
+      <td>orderId</td>
+    </tr>
+    <tr>
+      <td>Équilibrage maximal</td>
+      <td>Aucune clé</td>
+    </tr>
+    <tr>
+      <td>Agrégation Kafka Streams</td>
+      <td>Clé obligatoire</td>
+    </tr>
+  </table>
+
+  <h2>10️⃣ Conclusion</h2>
+
+  <p>
+    La clé Kafka est un mécanisme de <strong>partitionnement et d’ordre</strong>,
+    pas de filtrage.
+    Les consumer groups assurent la <strong>scalabilité</strong> et la <strong>résilience</strong>.
+  </p>
+
+</div>
