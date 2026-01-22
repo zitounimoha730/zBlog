@@ -1,0 +1,154 @@
+<h1>Apache Kafka – Delete Topics & Compaction Topics</h1>
+
+<h2>🗑️ Delete Topics (Log Retention par suppression)</h2>
+
+<p>
+Dans Kafka, un <strong>topic “delete”</strong> (comportement par défaut) supprime les messages
+<strong>anciens</strong> selon des règles de rétention.
+</p>
+
+<h3>🔹 Rétention par taille</h3>
+<ul>
+    <li>Chaque <strong>partition</strong> d’un topic peut avoir une taille maximale (<code>retention.bytes</code>)</li>
+    <li>Exemple : <code>retention.bytes = 20 KB</code></li>
+    <li>Lorsque la taille est dépassée :
+        <ul>
+            <li>Kafka supprime les <strong>segments les plus anciens</strong></li>
+            <li>Les messages récents sont conservés</li>
+        </ul>
+    </li>
+    <li>Par défaut : <strong>pas de limite de taille</strong> (<code>-1</code>)</li>
+</ul>
+
+<div class="note">
+    👉 La suppression se fait <strong>par segments de log</strong>, pas message par message.
+</div>
+
+<h3>🔹 Rétention par temps</h3>
+<ul>
+    <li>Chaque topic peut définir une durée de rétention (<code>retention.ms</code>)</li>
+    <li>Exemple : <code>retention.ms = 1 jour</code></li>
+    <li>Après cette durée :
+        <ul>
+            <li>Les messages deviennent <strong>éligibles à la suppression</strong></li>
+            <li>Kafka supprime les segments trop anciens</li>
+        </ul>
+    </li>
+    <li>Par défaut : <code>retention.ms = 7 jours</code></li>
+</ul>
+
+<h3>🔹 Caractéristiques importantes</h3>
+<ul>
+    <li>Kafka ne supprime pas les messages immédiatement</li>
+    <li>Un processus interne (log cleaner) s’exécute périodiquement</li>
+    <li>La suppression est <strong>indépendante des consumers</strong></li>
+</ul>
+
+<h3>🧠 Cas d’usage</h3>
+<ul>
+    <li>Logs applicatifs</li>
+    <li>Events métier</li>
+    <li>Données temporelles (tracking, métriques, historiques)</li>
+</ul>
+
+<hr>
+
+<h2>♻️ Compaction Topics (Log Compaction)</h2>
+
+<p>
+Un <strong>topic compacté</strong> conserve uniquement la
+<strong>dernière valeur associée à chaque clé</strong>.
+</p>
+
+<h3>🔹 Principe</h3>
+<ul>
+    <li>Kafka ne modifie jamais un message existant</li>
+    <li>Chaque nouveau message est <strong>ajouté au log</strong></li>
+    <li>Les anciennes versions sont supprimées plus tard</li>
+</ul>
+
+<div class="note">
+    ❌ Kafka ne “met pas à jour” un message<br>
+    ✅ Kafka ajoute un nouveau message puis supprime l’ancien lors du nettoyage
+</div>
+
+<h3>🔹 Fonctionnement détaillé</h3>
+<ul>
+    <li>Chaque message doit avoir une <strong>clé non nulle</strong></li>
+    <li>Le log cleaner :
+        <ul>
+            <li>Parcourt les segments</li>
+            <li>Conserve la <strong>dernière version par clé</strong></li>
+            <li>Supprime les anciennes versions</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>🔹 Messages avec valeur <code>null</code></h3>
+<pre>
+key = X
+value = null
+</pre>
+<ul>
+    <li>Représente une <strong>suppression logique</strong> (tombstone)</li>
+    <li>Après un délai, la clé est supprimée définitivement</li>
+</ul>
+
+<h3>🔹 Paramètres clés</h3>
+<ul>
+    <li><code>cleanup.policy=compact</code></li>
+    <li><code>min.compaction.lag.ms</code></li>
+    <li><code>delete.retention.ms</code></li>
+</ul>
+
+<h3>🧠 Cas d’usage</h3>
+<ul>
+    <li>Tables de référence</li>
+    <li>État courant d’un système</li>
+    <li>Configuration distribuée</li>
+    <li>Event Sourcing (vue matérialisée)</li>
+</ul>
+
+<hr>
+
+<h2>🔄 Delete vs Compaction (Résumé)</h2>
+
+<table>
+    <tr>
+        <th>Aspect</th>
+        <th>Delete Topic</th>
+        <th>Compaction Topic</th>
+    </tr>
+    <tr>
+        <td>Critère</td>
+        <td>Temps / Taille</td>
+        <td>Clé</td>
+    </tr>
+    <tr>
+        <td>Suppression</td>
+        <td>Messages anciens</td>
+        <td>Anciennes versions</td>
+    </tr>
+    <tr>
+        <td>Clé requise</td>
+        <td>Non</td>
+        <td>Oui</td>
+    </tr>
+    <tr>
+        <td>Ordre des messages</td>
+        <td>Important</td>
+        <td>Moins important</td>
+    </tr>
+    <tr>
+        <td>Usage</td>
+        <td>Historique</td>
+        <td>État courant</td>
+    </tr>
+</table>
+
+<div class="note">
+    ⚠️ Un topic peut avoir les deux politiques :
+    <code>cleanup.policy=delete,compact</code><br>
+    Kafka reste <strong>append-only</strong> et le nettoyage est <strong>asynchrone</strong>.
+</div>
+<p>End.</p>

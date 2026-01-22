@@ -9,6 +9,10 @@ import {KafkaPatitionsGroupsComponent} from '../components/kafka/kafka-patitions
 import {
   KafkaRebalanceOffsetsStreamsComponent
 } from '../components/kafka/kafka-rebalance-offsets-streams/kafka-rebalance-offsets-streams.component';
+import {UtilCommandsComponent} from '../components/utils/util-commands/util-commands.component';
+import { ArchitectJargonComponent } from '../components/utils/architect-jargon/architect-jargon.component';
+import { RemarquesComponent } from '../components/utils/remarques/remarques.component';
+import { TopicsDeleteAndCompactionComponent } from '../components/kafka/topics-delete-and-compaction/topics-delete-and-compaction.component';
 
 export const ALL_COURSE_CONFIG: CourseItem[] = [
   {
@@ -57,7 +61,28 @@ export const ALL_COURSE_CONFIG: CourseItem[] = [
       path: 'kafka-rebalance-offsets-stream',
       label: 'Rebalance, Offsets, Streams et Design',
       component: KafkaRebalanceOffsetsStreamsComponent,
+    }, {
+      path: 'topics-delete-and-compaction',
+      label: 'Topics Delete and Compaction',
+      component: TopicsDeleteAndCompactionComponent,
     }]
+  },
+  {
+    label: 'Utils',
+    children: [{
+      path: 'util-commands',
+      label: 'Commandes utiles',
+      component: UtilCommandsComponent,
+    },{
+    label: 'Architect Jargon',
+    path: 'architect-jargon',
+    component: ArchitectJargonComponent
+  },
+  {
+    label: 'Remarques',
+    path: 'remarques',
+    component: RemarquesComponent
+  },]
   },
   {
     label: 'Design Patterns',
