@@ -13,6 +13,7 @@ import {UtilCommandsComponent} from '../components/utils/util-commands/util-comm
 import { ArchitectJargonComponent } from '../components/utils/architect-jargon/architect-jargon.component';
 import { RemarquesComponent } from '../components/utils/remarques/remarques.component';
 import { TopicsDeleteAndCompactionComponent } from '../components/kafka/topics-delete-and-compaction/topics-delete-and-compaction.component';
+import { KafkaStreamExecutionComponent } from '../components/kafka/kafka-stream-execution/kafka-stream-execution.component';
 
 export const ALL_COURSE_CONFIG: CourseItem[] = [
   {
@@ -65,6 +66,10 @@ export const ALL_COURSE_CONFIG: CourseItem[] = [
       path: 'topics-delete-and-compaction',
       label: 'Topics Delete and Compaction',
       component: TopicsDeleteAndCompactionComponent,
+    }, {
+      path: 'kafka-stream-execution',
+      label: 'Kafka Stream Execution',
+      component: KafkaStreamExecutionComponent,
     }]
   },
   {

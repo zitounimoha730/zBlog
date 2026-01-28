@@ -1,0 +1,202 @@
+<h1>Kafka Streams : où s’exécute le processing ?</h1>
+
+<p>
+Kafka Streams <strong>s’exécute côté application</strong> (Java / Spring Boot),
+et <strong>pas côté cluster Kafka</strong>.
+</p>
+
+<p>
+Le cluster Kafka est responsable uniquement de :
+</p>
+
+<ul>
+  <li>le stockage des données (topics, partitions)</li>
+  <li>la réplication</li>
+  <li>la gestion des offsets et de l’ordering</li>
+</ul>
+
+<p>
+Toute la logique métier (<code>filter</code>, <code>map</code>, <code>join</code>, <code>aggregate</code>)
+est exécutée dans la <strong>JVM de l’application</strong>.
+</p>
+
+<h2>Modèle mental</h2>
+
+<pre>
+Application Kafka Streams (Java / Spring Boot)
+---------------------------------------------
+- filter()
+- map()
+- join()
+- aggregate()
+- state stores
+- threads JVM
+
+        |
+        v
+
+Cluster Kafka
+-------------
+- topics
+- partitions
+- offsets
+</pre>
+
+<p>
+Kafka n’exécute <strong>aucun code métier</strong>.
+</p>
+
+<h2>Cycle de vie</h2>
+
+<ul>
+  <li>Si l’application Java est lancée → le stream est actif</li>
+  <li>Si l’application s’arrête → le stream s’arrête immédiatement</li>
+</ul>
+
+<p>
+Kafka Streams est donc une <strong>application distribuée</strong>, pas un job exécuté sur Kafka.
+</p>
+
+<h2>Scalabilité</h2>
+
+<p>
+Chaque instance de l’application Kafka Streams :
+</p>
+
+<ul>
+  <li>lit un sous-ensemble des partitions</li>
+  <li>exécute le même code métier</li>
+</ul>
+
+<p>
+Le nombre d’instances utiles est limité par le nombre de partitions.
+</p>
+
+<h2>Résumé</h2>
+
+<ul>
+  <li>Kafka Streams = client Kafka intelligent</li>
+  <li>Le processing tourne dans l’application</li>
+  <li>Kafka fournit uniquement l’infrastructure</li>
+</ul>
+
+<hr/>
+
+<h1>ksqlDB : où s’exécute le processing ?</h1>
+
+<p>
+Avec ksqlDB, le processing <strong>s’exécute côté serveur ksqlDB</strong>,
+et non dans une application Spring Boot.
+</p>
+
+<h2>CREATE STREAM (déclaration de schéma)</h2>
+
+<pre>
+CREATE STREAM tempReadings (
+  zipcode VARCHAR,
+  sensortime BIGINT,
+  temp DOUBLE
+)
+WITH (
+  kafka_topic='readings',
+  timestamp='sensortime',
+  value_format='json',
+  partitions=1
+);
+</pre>
+
+<p>
+Cette commande :
+</p>
+
+<ul>
+  <li>déclare un schéma logique</li>
+  <li>associe un topic Kafka à une structure</li>
+  <li>ne crée aucun job de processing</li>
+  <li>ne transforme aucun message</li>
+</ul>
+
+<p>
+Le stream existe tant que le <strong>serveur ksqlDB</strong> est en fonctionnement.
+</p>
+
+<h2>Quand le processing démarre réellement</h2>
+
+<pre>
+CREATE STREAM hotTemps AS
+SELECT zipcode, temp
+FROM tempReadings
+WHERE temp &gt; 30
+EMIT CHANGES;
+</pre>
+
+<p>
+Dans ce cas :
+</p>
+
+<ul>
+  <li>ksqlDB démarre un job Kafka Streams interne</li>
+  <li>le processing s’exécute dans le serveur ksqlDB</li>
+  <li>les résultats sont écrits dans un nouveau topic Kafka</li>
+</ul>
+
+<h2>Architecture réelle</h2>
+
+<pre>
+ksqlDB Server
+-------------
+- moteur SQL
+- Kafka Streams interne
+- state stores
+
+        |
+        v
+
+Cluster Kafka
+-------------
+- topics
+- partitions
+</pre>
+
+<h2>Comparaison Kafka Streams vs ksqlDB</h2>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Technologie</th>
+      <th>Lieu d’exécution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Kafka Streams (Java)</td>
+      <td>Application Spring Boot / JVM</td>
+    </tr>
+    <tr>
+      <td>Spring Kafka</td>
+      <td>Application Spring Boot / JVM</td>
+    </tr>
+    <tr>
+      <td>ksqlDB</td>
+      <td>Serveur ksqlDB</td>
+    </tr>
+    <tr>
+      <td>CREATE STREAM</td>
+      <td>Déclaration logique dans ksqlDB</td>
+    </tr>
+    <tr>
+      <td>CREATE STREAM AS SELECT</td>
+      <td>Job Kafka Streams dans ksqlDB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Résumé final</h2>
+
+<ul>
+  <li>Kafka ne fait jamais de processing métier</li>
+  <li>Kafka Streams s’exécute dans l’application</li>
+  <li>ksqlDB exécute le processing côté serveur</li>
+  <li>CREATE STREAM seul ne lance aucun traitement</li>
+</ul>
+<p>End.</p>
